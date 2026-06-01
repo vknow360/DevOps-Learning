@@ -1,4 +1,4 @@
-module github.com/vknow360/devops-projects/simple-go-docker
+module github.com/vknow360/devops-learning/simple-go-docker
 
 go 1.25.5
 
