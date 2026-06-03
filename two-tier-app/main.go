@@ -102,14 +102,17 @@ func main() {
 	if port == "" {
 		port = "8001"
 	}
+	fmt.Println("Starting server on port " + port)
 	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
 		panic(err)
 	}
+
 }
 
 func connectDB() *sql.DB {
 	connStr := os.Getenv("MYSQL_CONNECTION_STRING")
+	//connStr = "root:root@tcp(localhost:3306)/<db>"
 
 	db, err := sql.Open("mysql", connStr)
 	if err != nil {
@@ -120,6 +123,7 @@ func connectDB() *sql.DB {
 		if err == nil {
 			break
 		}
+		fmt.Println(err.Error())
 		fmt.Println("Failed to connect to database. Retrying...")
 		time.Sleep(5 * time.Second)
 	}
@@ -172,6 +176,7 @@ func getNote(db *sql.DB, id int) Note {
 		fmt.Println(err.Error())
 		return Note{}
 	}
+	fmt.Println(note)
 	return note
 }
 
