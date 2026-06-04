@@ -115,7 +115,7 @@ func connectDB() *sql.DB {
 	pswd := os.Getenv("MYSQL_PASSWORD")
 	dbName := os.Getenv("MYSQL_DATABASE")
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s", user, pswd, host, dbName)
-	connStr = "root:root@tcp(localhost:3306)/notesdb"
+	//connStr = "root:root@tcp(localhost:3306)/notesdb"
 
 	db, err := sql.Open("mysql", connStr)
 	if err != nil {

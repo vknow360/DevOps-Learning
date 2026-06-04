@@ -36,7 +36,7 @@ services:
       - mysql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8001/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8001/health || exit 1"]
       timeout: 5s
       interval: 10s
       retries: 3
