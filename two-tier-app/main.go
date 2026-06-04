@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -111,21 +110,20 @@ func main() {
 }
 
 func connectDB() *sql.DB {
-	connStr := os.Getenv("MYSQL_CONNECTION_STRING")
+	host := os.Getenv("MYSQL_HOST")
+	user := os.Getenv("MYSQL_USER")
+	pswd := os.Getenv("MYSQL_PASSWORD")
+	dbName := os.Getenv("MYSQL_DATABASE")
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s", user, pswd, host, dbName)
 	//connStr = "root:root@tcp(localhost:3306)/<db>"
 
 	db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		panic(err.Error())
 	}
-	for i := 0; i < 5; i++ {
-		err = db.Ping()
-		if err == nil {
-			break
-		}
-		fmt.Println(err.Error())
-		fmt.Println("Failed to connect to database. Retrying...")
-		time.Sleep(5 * time.Second)
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
 	}
 
 	fmt.Println("Connected to database")
@@ -141,7 +139,7 @@ func connectDB() *sql.DB {
 }
 
 func getAllNotes(db *sql.DB) []Note {
-	query := `SELECT * FROM notes`
+	query := `SELECT id FROM notes`
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err.Error())
@@ -151,7 +149,7 @@ func getAllNotes(db *sql.DB) []Note {
 	notes := make([]Note, 0)
 	for rows.Next() {
 		var note Note
-		err := rows.Scan(&note.ID, &note.Message)
+		err := rows.Scan(&note.ID)
 		if err != nil {
 			fmt.Println(err.Error())
 			return nil
@@ -197,7 +195,7 @@ func deleteNote(db *sql.DB, id int) error {
 	query := `DELETE FROM notes WHERE id = ?`
 	_, err := db.Exec(query, id)
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	return nil
 }
