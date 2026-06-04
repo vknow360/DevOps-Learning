@@ -26,16 +26,16 @@ services:
     ports:
       - "3000:8001"
     environment:
-      - MYSQL_HOST:mysqldb
-      - MYSQL_USER:root
-      - MYSQL_PASSWORD:root
-      - MYSQL_DATABASE:notesdb
+      - MYSQL_HOST=mysqldb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=notesdb
     networks:
       - two-tier
     depends_on:
       - mysql
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8001/health || exit 1"]
       timeout: 5s
       interval: 10s
       retries: 3
