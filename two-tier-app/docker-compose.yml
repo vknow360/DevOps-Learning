@@ -2,7 +2,7 @@ services:
   mysql:
     container_name: mysqldb
     image: mysql
-    user: "${UID}:${GID}"
+    user: "1000:1000"
     ports:
       - "3306:3306"
     environment:
@@ -17,7 +17,7 @@ services:
       timeout: 5s
       interval: 10s
       retries: 3
-      start_period: 30s
+      start_period: 60s
 
   go:
     build:
@@ -34,6 +34,7 @@ services:
       - two-tier
     depends_on:
       - mysql
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:8001/health || exit 1"]
       timeout: 5s
