@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DNotes</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="{% static 'notes/css/style.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <a href="{% url 'notes' %}" class="navbar-brand">
+                    <i data-lucide="notebook-pen"></i>
+                    DNotes
+                </a>
+                <a href="{% url 'note_create' %}" class="btn btn-primary btn-icon-only" title="Create Note">
+                    <i data-lucide="plus"></i>
+                </a>
+            </div>
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="notes-list">
+        {% for note in notes %}
+            <a href="{% url 'note' note.id %}" class="note-card">
+                <div class="note-card-header">
+                    <h3 class="note-card-title">{{ note.title }}</h3>
+                    <span class="note-card-date">{{ note.created|date:"M d, Y P" }}</span>
+                </div>
+                <p class="note-card-snippet">{{ note.message }}</p>
+            </a>
+        {% empty %}
+            <div class="empty-state">
+                <i data-lucide="notepad-text"></i>
+                <h3>No notes yet</h3>
+                <p>Start writing down your thoughts, ideas, or to-do lists today.</p>
+                <a href="{% url 'note_create' %}" class="btn btn-primary">
+                    <i data-lucide="plus"></i>
+                    Create Your First Note
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

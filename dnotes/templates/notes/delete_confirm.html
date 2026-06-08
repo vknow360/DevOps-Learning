@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="confirm-delete-box">
+    <div class="confirm-delete-icon">
+        <i data-lucide="triangle-alert"></i>
+    </div>
+    <h2>Delete Note?</h2>
+    <p>Are you sure you want to delete the note "<strong>{{ note.title }}</strong>"? This action cannot be undone.</p>
+    <div class="confirm-delete-actions">
+        <a href="{% url 'note' note.id %}" class="btn">Cancel</a>
+        <form method="post" action="{% url 'note_delete' note.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i data-lucide="trash-2"></i>
+                Confirm Delete
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

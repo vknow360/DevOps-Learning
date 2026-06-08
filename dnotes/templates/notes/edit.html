@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post" class="note-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.message.id_for_label }}">Edit Note Message</label>
+            {{ form.message }}
+        </div>
+        <div class="form-actions">
+            <a href="{% url 'note' note.id %}" class="btn">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <i data-lucide="save"></i>
+                Save Changes
+            </button>
+        </div>
+    </form>
+{% endblock %}

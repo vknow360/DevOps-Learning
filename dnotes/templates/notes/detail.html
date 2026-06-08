@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="note-detail">
+    <div class="note-detail-header">
+        <div class="note-detail-meta">
+            <a href="{% url 'notes' %}" class="btn" title="Back to Notes">
+                <i data-lucide="arrow-left"></i>
+                <span>Back</span>
+            </a>
+            <div class="note-detail-actions">
+                <a href="{% url 'note_edit' note.id %}" class="btn btn-primary" title="Edit Note">
+                    <i data-lucide="pencil"></i>
+                    <span>Edit</span>
+                </a>
+                <a href="{% url 'note_delete' note.id %}" class="btn btn-danger" title="Delete Note">
+                    <i data-lucide="trash-2"></i>
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>
+        <h1 class="note-detail-title">{{ note.title }}</h1>
+        <div class="note-detail-date">
+            <i data-lucide="calendar-days" style="width: 14px; height: 14px;"></i>
+            <span>Created: {{ note.created|date:"F d, Y at h:i A" }}</span>
+        </div>
+    </div>
+    <div class="note-detail-body">{{ note.message }}</div>
+</div>
+{% endblock %}

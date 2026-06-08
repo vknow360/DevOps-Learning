@@ -1,0 +1,48 @@
+services:
+    nginx:
+        build:
+            context: ./nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+        restart: always
+        depends_on:
+            - django
+        networks:
+            - dnotes-network
+        
+    mysql:
+        image: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: dnotes
+        volumes:
+            - mysqldb:/var/lib/mysql
+        networks:
+            - dnotes-network
+        restart: always
+            
+    django:
+        build:
+            context: .
+        container_name: django_cont
+        command: sh -c "python manage.py migrate --no-input && gunicorn dnotes.wsgi --bind 0.0.0.0:8000"
+        environment:
+            DB_NAME: dnotes
+            DB_USER: root
+            DB_PASSWORD: root
+            DB_HOST: mysql
+        ports:
+            - "8000:8000"
+        restart: always
+        depends_on:
+            - mysql
+        networks:
+            - dnotes-network
+             
+volumes:
+    mysqldb:
+networks:
+    dnotes-network 
