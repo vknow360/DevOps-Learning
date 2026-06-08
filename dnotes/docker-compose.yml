@@ -51,4 +51,5 @@ services:
 
 volumes:
   mysqldb:
-networks: dnotes-network
+networks:
+  dnotes-network:
